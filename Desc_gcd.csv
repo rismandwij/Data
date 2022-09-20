@@ -1,0 +1,22 @@
+Nama_Variabel,Tipe_Variabel,Keterangan
+Creditability,Kategorik,Status Kredit
+Account Balance,Kategorik,Rekening Koran
+Duration of Credit (month),Numerik,Durasi Kredit
+Payment Status of Previous Credit,Kategorik,Riwayat Kredit
+Purpose,Kategorik,Tujuan Kredit
+Credit Amount,Numerik,Jumlah Kredit
+Value Savings/Stocks,Kategorik,Rekening Tabungan/Obligasi
+Length of current employment,Kategorik,Lama Bekerja
+Instalment per cent,Numerik,Tingkat angsuran dalam persentase pendapatan yang dapat disisihkan
+Sex & Marital Status,Kategorik,Jenis Kelamin dan Status
+Guarantors,Kategorik,Debitur Lain
+Duration in Current address,Numerik,Lama tinggal di alamat sekarang
+Most valuable available asset,Kategorik,Properti atau Aset Paling Berharga
+Age (years),Numerik,Usia
+Concurrent Credits,Kategorik,Cicilan Lainnya
+Type of apartment,Kategorik,Jenis tempat tinggal
+No of Credits at this Bank,Numerik,Jumlah Kredit yang ada di Bank ini
+Occupation,Kategorik,Pekerjaan
+No of dependents,Numerik,Jumlah tanggungan
+Telephone,Kategorik,Langganan Telepon
+Foreign Worker,Kategorik,Status Pekerja Asing
