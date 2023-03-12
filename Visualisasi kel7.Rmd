@@ -1,0 +1,196 @@
+---
+title: "SML Visualisasi"
+author: "Megawati"
+date: "2023-02-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(scales)
+library(GGally)
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
+```
+
+
+```{r}
+data_train<-read.csv("C:/Users/Mega/OneDrive/DATA D/SEMESTER 2/Pembelajaran Mesin Statistika/Tugas Sesi UTS/train.csv")
+
+```
+
+```{r}
+str(data_train)
+```
+
+## Melihat hubungan antara Price dengan peubah lainnya menggunakan scatterplot
+```{r}
+DataExplorer::plot_scatterplot(data = data_train,
+                               by = "price",nrow = 3,ncol = 3,geom_point_args = list(color="Steelblue"))
+```
+
+
+
+
+```{r}
+# menghitung kernel density
+dens <- density(data_train$accommodates)
+
+# histogram
+hist(data_train$accommodates, freq=FALSE, col="#69b3a2")
+
+# tambahkan density plot
+polygon(dens, border="darkblue")
+
+```
+
+
+
+```{r}
+# menghitung kernel density
+dens <- density(data_train$number_of_reviews)
+
+# histogram
+hist(data_train$number_of_reviews, freq=FALSE, col="#69b3a2")
+
+# tambahkan density plot
+polygon(dens, border="darkblue")
+
+```
+
+
+```{r}
+ggplot(data = data_train, mapping = aes(x = bed_type, y = price)) +
+    geom_boxplot(alpha = 0.5) +
+    geom_jitter(alpha = 0.5, color = "#69b3a2")
+```
+
+
+```{r}
+ggplot(data = data_train, aes(x = bed_type, y = price, color = bed_type)) +
+    geom_line() +
+    facet_wrap(vars(city)) +
+    labs(title = "Observasi Harga pada Tiap Kota",
+         x = "Tipe Tempat Tidur",
+         y = "Harga") +
+    theme_bw()
+```
+
+```{r}
+data_train%>%
+  filter(city %in% c("Boston","Chicago"
+                     ,"DC","LA","NYC",
+                     "NF")
+         )%>%
+  ggplot() +
+  geom_boxplot(aes(x = city,y = price,fill=city),show.legend = F) +
+  ggtitle("Sebaran Harga Penginapan Setiap Kota") +
+  ylab("Harga Penginapan") +
+  xlab("Kota") + 
+  theme(plot.title = element_text(hjust = 0.5))+
+  theme_bw()
+
+```
+
+```{r}
+data_train%>%count(city)%>%
+  mutate(city=fct_reorder(as.factor(city),desc(n)))%>%
+  ggplot()+
+  geom_segment(aes(x=city,xend=city, y=0, yend=n), color="skyblue")+
+  geom_point(aes(x=city,y=n),color="steelblue", size=2)+ 
+    scale_y_continuous(expand = c(0,0))+
+    coord_flip() +
+    ggtitle("Jumlah Penginapan Setiap Kota") +
+    xlab("") +
+    ylab("Jumlah Penginapan") +
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+
+
+```{r}
+# Correlogram
+
+ggcorr(data_train, method = c("everything","pearson"),geom = "tile") 
+```
+
+
+```{r}
+layout(matrix(1:6, nrow = 2, byrow = TRUE))
+freq_Cl<-table(data_train$cleaning_fee)
+colour<-c("#a50026","#feeda1")
+bp<-barplot(freq_Cl, main="Adanya Cleaning Fee",xlab="Fee",col=colour, beside=TRUE,ylim=c(0,max(freq_Cl)+100))
+text(x=bp, y = freq_Cl, label = freq_Cl, pos = 3, cex = 0.8, col = "black")
+```
+
+
+```{r}
+freq_host<-table(data_train$host_identity_verified)
+colour<-c("#a50026","#feeda1")
+bp<-barplot(freq_host, main="Jumlah Pemilik Rumah Terverifikasi",xlab="Verified",col=colour, beside=TRUE,ylim=c(0,max(freq_host)+100))
+text(x=bp, y = freq_host, label = freq_host, pos = 3, cex = 0.8, col = "black")
+```
+
+
+```{r}
+freq_book<-table(data_train$instant_bookable)
+colour<-c("#a50026","#feeda1")
+bp<-barplot(freq_book, main="Fasilitas Instant Bookable",xlab="Instant Bookable",col=colour, beside=TRUE,ylim=c(0,max(freq_book)+100))
+text(x=bp, y = freq_book, label = freq_book, pos = 3, cex = 0.8, col = "black")
+```
+
+
+```{r}
+freq_pict<-table(data_train$host_has_profile_pic)
+colour<-c("#a50026","#feeda1")
+bp<-barplot(freq_pict, main="Memiliki Foto Profil",xlab="Profil Pict",col=colour, beside=TRUE,ylim=c(0,max(freq_pict)+100))
+text(x=bp, y = freq_pict, label = freq_pict, pos = 3, cex = 0.8, col = "black")
+```
+
+
+```{r}
+freq_canc<-table(data_train$cancellation_policy)
+colour<-c("#a50026","#feeda1")
+bp<-barplot(freq_canc, main="Kebijakan Cancelling",xlab="Cancelling Policy",col=colour, beside=TRUE,ylim=c(0,max(freq_canc)+100))
+text(x=bp, y = freq_canc, label = freq_canc, pos = 3, cex = 0.8, col = "black")
+```
+
+
+```{r}
+freq_bedT<-table(data_train$bed_type)
+colour<-c("#a50026","#feeda1")
+bp<-barplot(freq_bedT, main="Bed Type",xlab="Bed Type",col=colour, beside=TRUE,ylim=c(0,max(freq_bedT)+100))
+text(x=bp, y = freq_bedT, label = freq_bedT, pos = 3, cex = 0.8, col = "black")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
